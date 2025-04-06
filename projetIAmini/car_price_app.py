@@ -2,23 +2,19 @@ import streamlit as st
 import joblib
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-
-#https://drive.google.com/file/d/1r99eYWZsVIHAn4hhSC1Qt6UxFYeWXvnf/view?usp=sharing
-
 import gdown
 import os
 
 # Chemin local du modèle
-model_path = "model.joblib"
+model_path = "car_price_model.pkl"
 
 # Téléchargement automatique si le modèle n'existe pas
 if not os.path.exists(model_path):
-    url = "https://drive.google.com/file/d/1r99eYWZsVIHAn4hhSC1Qt6UxFYeWXvnf"  # Remplace TON_ID ci-dessous
+    url = "https://drive.google.com/uc?export=download&id=1r99eYWZsVIHAn4hhSC1Qt6UxFYeWXvnf"  # Lien direct de téléchargement
     gdown.download(url, model_path, quiet=False)
 
-
 # Charger le modèle sauvegardé
-model = joblib.load('car_price_model.pkl')
+model = joblib.load(model_path)
 
 # Dictionnaire pour encoder les colonnes catégorielles
 label_encoders = {}
