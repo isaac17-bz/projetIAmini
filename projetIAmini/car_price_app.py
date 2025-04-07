@@ -9,9 +9,6 @@ import os
 model_path = "car_price_model.pkl"
 
 
-brands = ['BMW', 'Mercedes', 'Audi', 'Toyota', 'Ford']  # Les marques de ton dataset
-brand = st.selectbox('Marque', brands)
-
 
 # Téléchargement automatique si le modèle n'existe pas
 if not os.path.exists(model_path):
@@ -53,7 +50,9 @@ def predict_price(brand, model_name, year, engine_size, fuel_type, transmission,
 st.title("Prédiction du Prix d'une Voiture")
 
 # Saisie des caractéristiques de la voiture
-brand = st.text_input('Marque')
+brands = ['BMW', 'Mercedes', 'Audi', 'Toyota', 'Ford']  # Les marques de ton dataset
+brand = st.selectbox('Marque', brands)
+
 model_name = st.text_input('Modèle')
 year = st.number_input('Année', min_value=1900, max_value=2025, step=1)
 engine_size = st.number_input('Taille du moteur (L)', min_value=0.5, max_value=10.0, step=0.1)
