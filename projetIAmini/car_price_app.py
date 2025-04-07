@@ -8,6 +8,11 @@ import os
 # Chemin local du modèle
 model_path = "car_price_model.pkl"
 
+
+brands = ['BMW', 'Mercedes', 'Audi', 'Toyota', 'Ford']  # Les marques de ton dataset
+brand = st.selectbox('Marque', brands)
+
+
 # Téléchargement automatique si le modèle n'existe pas
 if not os.path.exists(model_path):
     url = "https://drive.google.com/uc?export=download&id=1r99eYWZsVIHAn4hhSC1Qt6UxFYeWXvnf"  # Lien direct de téléchargement
