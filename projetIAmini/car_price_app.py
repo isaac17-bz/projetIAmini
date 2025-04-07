@@ -5,23 +5,23 @@ from sklearn.preprocessing import LabelEncoder
 import gdown
 import os
 
-# Chemin local du modèle
-model_path = "car_price_model.pkl"
+# Chemin du modèle et des encodeurs sur Google Drive
+model_path = "/content/drive/My Drive/car_price_dataset/car_price_model.pkl"
+encoders_path = "/content/drive/My Drive/car_price_dataset/label_encoders.pkl"
 
-
-
-# Téléchargement automatique si le modèle n'existe pas
+# Télécharger le modèle et les encodeurs si ce n'est pas encore fait
 if not os.path.exists(model_path):
-    url = "https://drive.google.com/uc?export=download&id=1r99eYWZsVIHAn4hhSC1Qt6UxFYeWXvnf"  # Lien direct de téléchargement
+    url = "https://drive.google.com/uc?export=download&id=1r99eYWZsVIHAn4hhSC1Qt6UxFYeWXvnf"  # Lien direct de téléchargement du modèle
     gdown.download(url, model_path, quiet=False)
 
-# Charger le modèle sauvegardé
-model = joblib.load(model_path)
+if not os.path.exists(encoders_path):
+    st.error("Les encodeurs ne sont pas disponibles. Veuillez vérifier le chemin du fichier d'encodeurs.")
+else:
+    # Charger le modèle et les encodeurs
+    model = joblib.load(model_path)
+    label_encoders = joblib.load(encoders_path)
 
-# Dictionnaire pour encoder les colonnes catégorielles
-label_encoders = {}
-
-# Fonction pour prédire le prix
+# Fonction pour prédire le prix de la voiture
 def predict_price(brand, model_name, year, engine_size, fuel_type, transmission, mileage, doors, owner_count):
     # Créer un DataFrame avec les valeurs entrées
     new_car = {
@@ -37,7 +37,7 @@ def predict_price(brand, model_name, year, engine_size, fuel_type, transmission,
     }
     new_car_df = pd.DataFrame(new_car)
     
-    # Encoder les colonnes catégorielles
+    # Encoder les colonnes catégorielles en utilisant les encodeurs
     for col in new_car_df.select_dtypes(include=['object']).columns:
         if col in label_encoders:
             new_car_df[col] = label_encoders[col].transform(new_car_df[col])
